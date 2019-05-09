@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Brian Freytag",
-            "email": "brianfreytag@leecontracting.com"
+            "email": "me@brianfreytag.com"
         }
     ],
     "support": {
@@ -21,7 +21,8 @@
         "guzzlehttp/promises": "^1.3",
         "ext-pcre": "*",
         "ext-json": "*",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "symfony/property-info": "~3.4|~4.0"
     },
     "require-dev": {
         "ext-openssl": "*",
