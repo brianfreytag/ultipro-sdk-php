@@ -1,8 +1,11 @@
 # Ultipro SDK for PHP (Unofficial)
 
+[![Latest Stable Version](https://poser.pugx.org/brianfreytag/ultipro-sdk-php/v/stable)](https://packagist.org/packages/brianfreytag/ultipro-sdk-php)
+[![Total Downloads](https://poser.pugx.org/brianfreytag/ultipro-sdk-php/downloads)](https://packagist.org/packages/brianfreytag/ultipro-sdk-php)
+
 This is an unofficial library to allow seamless connections to Ultipro's REST API via PHP.
 
-This library was created because Ultimate Software does not have any SDK and none of their documentation lay out how to
+This library was created because Ultimate Software does not have any SDK and none of their documentation lays out how to
 use PHP for any of it. 
 
 ## Installation
@@ -32,7 +35,7 @@ $authorization = new Authentication($username, $password, $customerApiKey);
 $client = new UltiproClient($authorization);
 ```
 
-#### Array
+#### Array:
 
 ```php
 use Ultipro\UltiproClient;
@@ -128,7 +131,7 @@ There is still a lot of work to do in this library, including many endpoints to 
 - [ ] Add Organization Levels (https://connect.ultipro.com/documentation#/api/136)\
 - [ ] Add Jobs Configuration API (https://connect.ultipro.com/documentation#/api/196)
 - [ ] Add Locations Configuration API (https://connect.ultipro.com/documentation#/api/202)
-- [ ] Add `POST`, `PUT`, and `PATCH` for Organization Levelas API (https://connect.ultipro.com/documentation#/api/136)
+- [ ] Add `POST`, `PUT`, and `PATCH` for Organization Levels API (https://connect.ultipro.com/documentation#/api/136)
 
 ### Personnel
 - [ ] Add Compensation Details API (https://connect.ultipro.com/documentation#/api/823)
@@ -157,5 +160,5 @@ There is still a lot of work to do in this library, including many endpoints to 
 
 ### Other Items
 - [ ] Add Unit Tests
-- [ ] Add Soap Services (https://connect.ultipro.com/documentation#/api/979)
+- [ ] Add SOAP Services (https://connect.ultipro.com/documentation#/api/979)
 - [ ] Update Todo list as stuff comes up
