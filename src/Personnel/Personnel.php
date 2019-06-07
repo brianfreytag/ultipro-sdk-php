@@ -17,7 +17,7 @@ use Ultipro\Personnel\Model\PersonDetail;
 use Ultipro\Request;
 use Ultipro\RequestInterface;
 use Ultipro\Response;
-use Ultipro\UltiproClient;
+use Ultipro\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Ultipro\ResponseInterface;
 use Ultipro\Exception\ClientException;
@@ -25,7 +25,7 @@ use Ultipro\Exception\ClientException;
 /**
  * @author Brian Freytag <me@brianfreytag.com>
  */
-class PersonnelClient extends UltiproClient
+class Personnel extends Client
 {
     /**
      * @param RequestInterface $request

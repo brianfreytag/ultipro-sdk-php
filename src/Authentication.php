@@ -71,7 +71,7 @@ class Authentication
                 $this->getPassword(),
             ],
             'headers' => [
-                UltiproClient::HEADER_CUSTOMER_API_KEY => $this->getCustomerApiKey(),
+                Client::HEADER_CUSTOMER_API_KEY => $this->getCustomerApiKey(),
             ]
         ];
     }
