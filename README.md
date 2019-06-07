@@ -24,7 +24,7 @@ You can authenticate in the Client in one of two ways: 1) Authentication Object,
 
 ```php
 use Ultipro\Authentication;
-use Ultipro\UltiproClient;
+use Ultipro\Client;
 
 $username = 'my-username';
 $password = 'my-password';
@@ -32,13 +32,13 @@ $customerApiKey = 'XY0XY';
 
 $authorization = new Authentication($username, $password, $customerApiKey);
 
-$client = new UltiproClient($authorization);
+$client = new Client($authorization);
 ```
 
 #### Array:
 
 ```php
-use Ultipro\UltiproClient;
+use Ultipro\Client;
 
 $username = 'my-username';
 $password = 'my-password';
@@ -50,7 +50,7 @@ $authorization = [
     'customer_api_key' => $customerApiKey
 ];
 
-$client = new UltiproClient($authorization);
+$client = new Client($authorization);
 
 ```
 ### Client Arguments
@@ -89,7 +89,7 @@ different `*Query` classes under the `Query` directory that will accept differen
 Here is a simple example of pulling Person Detail API data utilizing an Employee ID (as defined from Ultipro):
 
 ```php
-use Ultipro\Personnel\PersonnelClient;
+use Ultipro\Personnel\Personnel;
 use Ultipro\Authentication;
 use Ultipro\Personnel\Query\PersonDetailQuery;
 use Ultipro\Personnel\Model\PersonDetail;
@@ -102,7 +102,7 @@ $customerApiKey = 'XY0XY';
 
 $authorization = new Authentication($username, $password, $customerApiKey);
 
-$personnelClient = new PersonnelClient($authorization);
+$personnelClient = new Personnel($authorization);
 
 $request = new Request();
 
