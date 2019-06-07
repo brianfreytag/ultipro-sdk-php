@@ -14,6 +14,7 @@ use Ultipro\Exception\InvalidArgumentException;
 use Ultipro\Personnel\Model\EmployeeIdLookup;
 use Ultipro\Personnel\Model\EmploymentDetail;
 use Ultipro\Personnel\Model\PersonDetail;
+use Ultipro\Personnel\Query\EmployeeIdLookupQuery;
 use Ultipro\Request;
 use Ultipro\RequestInterface;
 use Ultipro\Response;
@@ -104,6 +105,16 @@ class PersonnelClient extends UltiproClient
         $employeeIds = [];
 
         foreach ($data->multistatus as $status) {
+            if ($status->status !== '200 OK') {
+                /** @var EmployeeIdLookupQuery $postParameters */
+                $postParameters = $request->getPostParameters();
+
+                $personnelResponse->setStatusCode(preg_replace('/[^0-9]/', '', $status->status));
+                $personnelResponse->setStatusReason(sprintf('Unable to find Ultipro Employee ID for employee ' . $postParameters->getEmployeeIdentifierValue()));
+
+                return $personnelResponse;
+            }
+
             $employeeId = new EmployeeIdLookup();
             $employeeId->setEmployeeId($status->body->eeid)
                 ->setCompanyIds($status->body->coid);
