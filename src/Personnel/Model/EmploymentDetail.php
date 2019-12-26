@@ -229,6 +229,21 @@ class EmploymentDetail implements PersonnelDetailInterface
     /** @var DateTime|null */
     private $dateTimeChanged;
 
+    /** @var string|null */
+    private $supervisorEmployeeNumber;
+
+    /** @var string|null */
+    private $supervisorCOID;
+
+    /** @var string|null */
+    private $supervisorCompanyCode;
+
+    /** @var string|null */
+    private $companyGLSegment;
+
+    /** @var string|null */
+    private $locationGLSegment;
+
     /**
      * @return null|string
      */
@@ -1625,6 +1640,106 @@ class EmploymentDetail implements PersonnelDetailInterface
     public function setDateTimeChanged(?DateTime $dateTimeChanged)
     {
         $this->dateTimeChanged = $dateTimeChanged;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSupervisorEmployeeNumber()
+    {
+        return $this->supervisorEmployeeNumber;
+    }
+
+    /**
+     * @param string|null $supervisorEmployeeNumber
+     *
+     * @return EmploymentDetail
+     */
+    public function setSupervisorEmployeeNumber(?string $supervisorEmployeeNumber)
+    {
+        $this->supervisorEmployeeNumber = $supervisorEmployeeNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSupervisorCOID()
+    {
+        return $this->supervisorCOID;
+    }
+
+    /**
+     * @param string|null $supervisorCOID
+     *
+     * @return EmploymentDetail
+     */
+    public function setSupervisorCOID(?string $supervisorCOID)
+    {
+        $this->supervisorCOID = $supervisorCOID;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSupervisorCompanyCode()
+    {
+        return $this->supervisorCompanyCode;
+    }
+
+    /**
+     * @param string|null $supervisorCompanyCode
+     *
+     * @return EmploymentDetail
+     */
+    public function setSupervisorCompanyCode(?string $supervisorCompanyCode)
+    {
+        $this->supervisorCompanyCode = $supervisorCompanyCode;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCompanyGLSegment(): ?string
+    {
+        return $this->companyGLSegment;
+    }
+
+    /**
+     * @param string|null $companyGLSegment
+     *
+     * @return EmploymentDetail
+     */
+    public function setCompanyGLSegment(?string $companyGLSegment)
+    {
+        $this->companyGLSegment = $companyGLSegment;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocationGLSegment()
+    {
+        return $this->locationGLSegment;
+    }
+
+    /**
+     * @param string|null $locationGLSegment
+     *
+     * @return EmploymentDetail
+     */
+    public function setLocationGLSegment(?string $locationGLSegment)
+    {
+        $this->locationGLSegment = $locationGLSegment;
 
         return $this;
     }
