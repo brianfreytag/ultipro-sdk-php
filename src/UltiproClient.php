@@ -182,7 +182,7 @@ class UltiproClient
                     );
                 }
 
-                $types = $reflectionExtractor->getTypes($responseClass, $property);
+                $types = $reflectionExtractor->getTypes(get_class($responseClass), $property);
                 $type  = $types[0];
 
                 if ($value && $type->getBuiltinType() === 'object' && $type->getClassName() === 'DateTime') {
