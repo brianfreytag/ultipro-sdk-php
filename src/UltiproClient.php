@@ -251,7 +251,7 @@ class UltiproClient
 
         $reflectionExtractor = new ReflectionExtractor();
 
-        $properties = $reflectionExtractor->getProperties($query);
+        $properties = $reflectionExtractor->getProperties(get_class($query));
 
         foreach ($properties as $property) {
             $methodName = 'get' . ucwords($property);
