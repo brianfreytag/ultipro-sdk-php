@@ -24,16 +24,20 @@ class Authentication
     /** @var string */
     private $customerApiKey;
 
+    /** @var string */
+    private $userApiKey;
+
     /**
      * @param string $username
      * @param string $password
      * @param string $customerApiKey
      */
-    public function __construct(string $username, string $password, string $customerApiKey)
+    public function __construct(string $username, string $password, string $customerApiKey, ?string $userApiKey = null)
     {
         $this->username       = $username;
         $this->password       = $password;
         $this->customerApiKey = $customerApiKey;
+        $this->userApiKey     = $userApiKey;
     }
 
     /**
@@ -61,10 +65,28 @@ class Authentication
     }
 
     /**
+     * @return string
+     */
+    public function getUserApiKey()
+    {
+        return $this->userApiKey;
+    }
+
+    /**
      * @return array
      */
-    public function toArray()
+    public function toArray($isSoap = false)
     {
+        if ($isSoap) {
+            return [
+                'logOnRequest' => [
+                    'UserName'        => $this->getUsername(),
+                    'Password'        => $this->getPassword(),
+                    'ClientAccessKey' => $this->getCustomerApiKey(),
+                    'UserAccessKey'   => $this->getUserApiKey()
+                ]
+            ];
+        }
         return [
             'auth'    => [
                 $this->getUsername(),
