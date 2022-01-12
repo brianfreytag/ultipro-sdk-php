@@ -24,6 +24,9 @@ class OrgLevelQuery extends ConfigurationQuery
     private $code;
 
     /** @var string */
+    private $level;
+
+    /** @var string */
     private $budgetGroup;
 
     /** @var string */
@@ -68,6 +71,26 @@ class OrgLevelQuery extends ConfigurationQuery
     public function setCode(string $code)
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @param string $level
+     *
+     * @return OrgLevelQuery
+     */
+    public function setLevel(string $level)
+    {
+        $this->level = $level;
 
         return $this;
     }
