@@ -68,7 +68,7 @@ class UltiproSoapClient
             new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/LogOn', true),
             new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BiDataService', true)
         ];
-
+        
         $this->getClient()->__setSoapHeaders($headers);
 
         try {
@@ -78,8 +78,8 @@ class UltiproSoapClient
                 'There was an error logging into the Ultipro SOAP API',
                 [
                     'message'       => $e->getMessage(),
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
+                    'last_request'  => $this->getClient()->__getLastRequest(),
+                    'last_response' => $this->getClient()->__getLastResponse()
                 ]
             );
 
@@ -90,8 +90,8 @@ class UltiproSoapClient
             $this->getLogger()->error(
                 'There was an error logging into the Ultipro SOAP API',
                 [
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
+                    'last_request'  => $this->getClient()->__getLastRequest(),
+                    'last_response' => $this->getClient()->__getLastResponse()
                 ]
             );
 
