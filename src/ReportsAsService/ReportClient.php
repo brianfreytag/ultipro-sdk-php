@@ -287,6 +287,8 @@ class ReportClient extends UltiproSoapClient
             $data = [];
 
             foreach ($row['value'] as $key => $value) {
+                $value = is_array($value) ? implode(" | ", array_map("trim", array_filter($value))) : trim($value);
+
                 $data[$reportArray['metadata']['item'][$key]['@attributes']['name']] = trim($value);
             }
 
