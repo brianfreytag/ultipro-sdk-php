@@ -39,8 +39,8 @@ class UltiproSoapClient
     /** @var LoggerInterface */
     private $logger;
 
-    /** @var SoapClient */
-    private $client;
+    /** @var array */
+    private $options;
 
     /**
      * @param array|Authentication $auth
@@ -53,8 +53,8 @@ class UltiproSoapClient
     public function __construct($auth, string $baseUri = 'https://service5.ultipro.com/services/BIDataService', array $options = [], LoggerInterface $logger = null)
     {
         $this->setAuthentication($auth);
-        $this->client        = $this->buildClient($baseUri, $options);
         $this->baseUri       = $baseUri;
+        $this->options       = $options;
         $this->logger        = $logger;
     }
 
@@ -69,17 +69,19 @@ class UltiproSoapClient
             new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BiDataService', true)
         ];
         
-        $this->getClient()->__setSoapHeaders($headers);
+        $client = $this->buildClient($this->baseUri, $this->options);
+        
+        $client->__setSoapHeaders($headers);
 
         try {
-            $response = $this->getClient()->LogOn($this->auth);
+            $response = $client->LogOn($this->auth);
         } catch (Exception $e) {
             $this->getLogger()->error(
                 'There was an error logging into the Ultipro SOAP API',
                 [
                     'message'       => $e->getMessage(),
-                    'last_request'  => $this->getClient()->__getLastRequest(),
-                    'last_response' => $this->getClient()->__getLastResponse()
+                    'last_request'  => $client->__getLastRequest(),
+                    'last_response' => $client->__getLastResponse()
                 ]
             );
 
@@ -90,8 +92,8 @@ class UltiproSoapClient
             $this->getLogger()->error(
                 'There was an error logging into the Ultipro SOAP API',
                 [
-                    'last_request'  => $this->getClient()->__getLastRequest(),
-                    'last_response' => $this->getClient()->__getLastResponse()
+                    'last_request'  => $client->__getLastRequest(),
+                    'last_response' => $client->__getLastResponse()
                 ]
             );
 
@@ -354,10 +356,18 @@ class UltiproSoapClient
     }
 
     /**
-     * @return SoapClient
+     * @return string
      */
-    public function getClient()
+    public function getBaseUri()
     {
-        return $this->client;
+        return $this->baseUri;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

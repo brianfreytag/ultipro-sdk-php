@@ -29,7 +29,7 @@ class ReportClient extends UltiproSoapClient
         try {
             $logonResponse = $this->login();
 
-            $client = $this->buildClient();
+            $client = $this->buildClient($this->getBaseUri(), $this->getOptions());
 
             $headers = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/GetReportList', true),
@@ -81,7 +81,7 @@ class ReportClient extends UltiproSoapClient
         try {
             $logonResponse = $this->login();
 
-            $client = $this->buildClient();
+            $client = $this->buildClient($this->getBaseUri(), $this->getOptions());
 
             $headers = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/GetReportParameters', true),
@@ -151,9 +151,7 @@ class ReportClient extends UltiproSoapClient
         try {
             $logonResponse = $this->login();
 
-            $client = $this->buildClient('https://service5.ultipro.com/services/BiDataService', [
-                'US-DELIMITER' => ','
-            ]);
+            $client = $this->buildClient('https://service5.ultipro.com/services/BiDataService', ['US-DELIMITER' => ',']);
 
             $headers = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/ExecuteReport', true),
