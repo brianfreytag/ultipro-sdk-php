@@ -59,17 +59,16 @@ class UltiproSoapClient
     }
 
     /**
-     * @param string $baseUri
      * @param array $options
      */
-    public function login(string $baseUri = 'https://service5.ultipro.com/services/BIDataService', array $options = [])
+    public function login(array $options = [])
     {
         $headers  = [
             new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/LogOn', true),
-            new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BiDataService', true)
+            new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->getBaseUri() . '/services/BiDataService', true)
         ];
         
-        $client = $this->buildClient($this->baseUri, $this->options);
+        $client = $this->buildClient($this->getBaseUri() . '/services/BIDataService', $this->options);
         
         $client->__setSoapHeaders($headers);
 
@@ -271,7 +270,7 @@ class UltiproSoapClient
         $returnLink = null;
 
         foreach ($parsedLinkHeader as $linkHeader) {
-            $link = str_replace($this->baseUri, '', trim($linkHeader['0'], '<>'));
+            $link = str_replace($this->getBaseUri(), '', trim($linkHeader['0'], '<>'));
             $rel   = $linkHeader['rel'];
 
             switch ($rel) {

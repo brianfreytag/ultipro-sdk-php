@@ -29,11 +29,11 @@ class ReportClient extends UltiproSoapClient
         try {
             $logonResponse = $this->login();
 
-            $client = $this->buildClient($this->getBaseUri(), $this->getOptions());
+            $client = $this->buildClient($this->getBaseUri() . '/services/BIDataService', $this->getOptions());
 
             $headers = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/GetReportList', true),
-                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BiDataService', true)
+                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->getBaseUri() . '/services/BiDataService', true)
             ];
 
             $client->__setSoapHeaders($headers);
@@ -81,11 +81,11 @@ class ReportClient extends UltiproSoapClient
         try {
             $logonResponse = $this->login();
 
-            $client = $this->buildClient($this->getBaseUri(), $this->getOptions());
+            $client = $this->buildClient($this->getBaseUri() . '/services/BIDataService', $this->getOptions());
 
             $headers = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/GetReportParameters', true),
-                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BiDataService', true)
+                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->getBaseUri() . '/services/BiDataService', true)
             ];
 
             $client->__setSoapHeaders($headers);
@@ -137,6 +137,10 @@ class ReportClient extends UltiproSoapClient
     {
         $executeResponse = $this->executeReport($report, $parameters);
 
+        if (!$executeResponse) {
+            return false;
+        }
+
         return $this->retrieveReport($executeResponse, $toArray);
     }
 
@@ -151,11 +155,11 @@ class ReportClient extends UltiproSoapClient
         try {
             $logonResponse = $this->login();
 
-            $client = $this->buildClient('https://service5.ultipro.com/services/BiDataService', ['US-DELIMITER' => ',']);
+            $client = $this->buildClient($this->getBaseUri() . '/services/BiDataService', ['US-DELIMITER' => ',']);
 
             $headers = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/ExecuteReport', true),
-                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BiDataService', true)
+                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->getBaseUri() . '/services/BiDataService', true)
             ];
 
             $client->__setSoapHeaders($headers);
@@ -175,7 +179,7 @@ class ReportClient extends UltiproSoapClient
             ]);
         } catch (Exception $e) {
             $this->getLogger()->error(
-                'There was an error excuting the report from the Ultipro SOAP API',
+                'There was an error excuting the Report from the Ultipro SOAP API',
                 [
                     'message'       => $e->getMessage(),
                     'last_request'  => $client->__getLastRequest(),
@@ -193,7 +197,7 @@ class ReportClient extends UltiproSoapClient
             $response->ExecuteReportResult->ReportRetrievalUri === null
         ) {
             $this->getLogger()->error(
-                'There was an error executing the report from the Ultipro SOAP API',
+                'There was an error executing the Report from the Ultipro SOAP API',
                 [
                     'last_request'  => $client->__getLastRequest(),
                     'last_response' => $client->__getLastResponse()
@@ -223,7 +227,7 @@ class ReportClient extends UltiproSoapClient
 
             $reportResponseHeader = [
                 new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bistream/2/IBIStreamService/RetrieveReport', true),
-                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', 'https://service5.ultipro.com/services/BIStreamingService', true),
+                new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->getBaseUri() . '/services/BIStreamingService', true),
                 new SoapHeader('http://www.ultipro.com/dataservices/bistream/2', 'ReportKey', $executeResponse->ReportKey)
             ];
 
@@ -243,7 +247,7 @@ class ReportClient extends UltiproSoapClient
             ]);
         } catch (Exception $e) {
             $this->getLogger()->error(
-                'There was an error grabbing the Report Parameters from the Ultipro SOAP API',
+                'There was an error grabbing the Report from the Ultipro SOAP API',
                 [
                     'message'       => $e->getMessage(),
                     'last_request'  => $client->__getLastRequest(),
@@ -262,7 +266,7 @@ class ReportClient extends UltiproSoapClient
 
         if ($xmlDocument === false) {
             $this->getLogger()->error(
-                'There was an error grabbing the Report Parameters from the Ultipro SOAP API',
+                'There was an error grabbing the Report from the Ultipro SOAP API',
                 [
                     'message'       => 'The XML Document was either empty or invalid.',
                     'reportStream'  => $reportStatus->ReportStream,
