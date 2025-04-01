@@ -21,11 +21,11 @@ interface RequestInterface
     public function getMethod();
 
     /**
-     * @param string $method
+     * @param string|null $method
      *
      * @return $this
      */
-    public function setMethod(string $method);
+    public function setMethod(?string $method);
 
     /**
      * @return string
@@ -33,11 +33,11 @@ interface RequestInterface
     public function getEndPoint();
 
     /**
-     * @param string $endpoint
+     * @param string $endPoint
      *
      * @return $this
      */
-    public function setEndPoint(string $endpoint);
+    public function setEndPoint(string $endPoint);
 
     /**
      * @return Query

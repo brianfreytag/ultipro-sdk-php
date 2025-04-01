@@ -61,7 +61,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $primaryJobCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setPrimaryJobCode(string $primaryJobCode)
     {
@@ -81,7 +81,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $jobTitle
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setJobTitle(string $jobTitle)
     {
@@ -101,7 +101,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $fullTimeOrPartTime
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setFullTimeOrPartTime(string $fullTimeOrPartTime)
     {
@@ -121,7 +121,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $primaryWorkLocationCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setPrimaryWorkLocationCode(string $primaryWorkLocationCode)
     {
@@ -141,7 +141,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $primaryProjectCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setPrimaryProjectCode(string $primaryProjectCode)
     {
@@ -161,7 +161,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $deductionGroupCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setDeductionGroupCode(string $deductionGroupCode)
     {
@@ -181,7 +181,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $earningGroupCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setEarningGroupCode(string $earningGroupCode)
     {
@@ -201,7 +201,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $employeeTypeCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setEmployeeTypeCode(string $employeeTypeCode)
     {
@@ -221,7 +221,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $employeeStatusCode
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setEmployeeStatusCode(string $employeeStatusCode)
     {
@@ -241,7 +241,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $employeeNumber
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setEmployeeNumber(string $employeeNumber)
     {
@@ -261,7 +261,7 @@ class EmploymentDetailQuery extends PersonnelQuery
     /**
      * @param string $supervisorId
      *
-     * @return EmploymentDetailRequest
+     * @return EmploymentDetailQuery
      */
     public function setSupervisorId(string $supervisorId)
     {

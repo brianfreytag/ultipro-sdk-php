@@ -40,7 +40,7 @@ class PersonDetailQuery extends PersonnelQuery
     /**
      * @param string $lastName
      *
-     * @return PersonDetailRequest
+     * @return PersonDetailQuery
      */
     public function setLastName(string $lastName)
     {
@@ -60,7 +60,7 @@ class PersonDetailQuery extends PersonnelQuery
     /**
      * @param string $emailAddress
      *
-     * @return PersonDetailRequest
+     * @return PersonDetailQuery
      */
     public function setEmailAddress(string $emailAddress)
     {
@@ -80,7 +80,7 @@ class PersonDetailQuery extends PersonnelQuery
     /**
      * @param string $addressState
      *
-     * @return PersonDetailRequest
+     * @return PersonDetailQuery
      */
     public function setAddressState(string $addressState)
     {
@@ -100,7 +100,7 @@ class PersonDetailQuery extends PersonnelQuery
     /**
      * @param string $addressCountry
      *
-     * @return PersonDetailRequest
+     * @return PersonDetailQuery
      */
     public function setAddressCountry(string $addressCountry)
     {

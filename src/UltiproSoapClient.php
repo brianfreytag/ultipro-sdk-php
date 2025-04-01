@@ -13,15 +13,11 @@ namespace Ultipro;
 use SoapClient;
 use SoapFault;
 use SoapHeader;
-use Psr\Log\LoggerInterface;
-use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Ultipro\Exception\ClientException;
 use Ultipro\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Ultipro\ResponseInterface as UltiproResponseInterface;
-use GuzzleHttp\Exception\GuzzleException;
 use Exception;
 use DateTime;
 
@@ -36,9 +32,6 @@ class UltiproSoapClient
     /** @var Authentication|array */
     private $auth;
 
-    /** @var LoggerInterface */
-    private $logger;
-
     /** @var array */
     private $options;
 
@@ -46,22 +39,21 @@ class UltiproSoapClient
      * @param array|Authentication $auth
      * @param string $baseUri
      * @param array $options
-     * @param LoggerInterface|null $logger
      *
      * @throws InvalidArgumentException
      */
-    public function __construct($auth, string $baseUri = 'https://service5.ultipro.com/services/BIDataService', array $options = [], LoggerInterface $logger = null)
+    public function __construct(array|Authentication $auth, string $baseUri = 'https://service5.ultipro.com/services/BIDataService', array $options = [])
     {
         $this->setAuthentication($auth);
         $this->baseUri       = $baseUri;
         $this->options       = $options;
-        $this->logger        = $logger;
     }
 
     /**
-     * @param array $options
+     * @return mixed
+     * @throws SoapFault|ClientException
      */
-    public function login(array $options = [])
+    public function login()
     {
         $headers  = [
             new SoapHeader('http://www.w3.org/2005/08/addressing', 'Action', 'http://www.ultipro.com/dataservices/bidata/2/IBIDataService/LogOn', true),
@@ -75,28 +67,15 @@ class UltiproSoapClient
         try {
             $response = $client->LogOn($this->auth);
         } catch (Exception $e) {
-            $this->getLogger()->error(
+            throw new ClientException(
                 'There was an error logging into the Ultipro SOAP API',
-                [
-                    'message'       => $e->getMessage(),
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
+                $e->getCode(),
+                $e
             );
-
-            return false;
         }
 
         if (!property_exists($response, 'LogOnResult') || $response->LogOnResult->Status !== 'Ok') {
-            $this->getLogger()->error(
-                'There was an error logging into the Ultipro SOAP API',
-                [
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
-            );
-
-            return false;
+            throw new ClientException('There was an error logging into the Ultipro SOAP API');
         }
 
         return $response->LogOnResult;
@@ -107,6 +86,7 @@ class UltiproSoapClient
      * @param array $options
      *
      * @return SoapClient
+     * @throws SoapFault
      */
     protected function buildClient(string $baseUri = 'https://service5.ultipro.com/services/BIDataService', array $options = [])
     {
@@ -206,7 +186,7 @@ class UltiproSoapClient
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function parseRequest(RequestInterface $request, $parseQueryAsArray = false, $parsePostAsArray = false)
+    protected function parseRequest(RequestInterface $request, bool $parseQueryAsArray = false, bool $parsePostAsArray = false)
     {
         $queryParameters = $request->getQueryParameters();
         $postParameters  = $request->getPostParameters();
@@ -314,11 +294,11 @@ class UltiproSoapClient
     }
 
     /**
-     * @param Authentication|array $auth
+     * @param array|Authentication $auth
      *
      * @throws InvalidArgumentException
      */
-    private function setAuthentication($auth)
+    private function setAuthentication(array|Authentication $auth)
     {
         if ($auth instanceof Authentication) {
             $authenticationArray = $auth->toArray(true);
@@ -344,14 +324,6 @@ class UltiproSoapClient
     private function requiredAuthenticationKeys()
     {
         return ['username', 'password', 'customer_api_key', 'user_api_key'];
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger()
-    {
-        return $this->logger;
     }
 
     /**

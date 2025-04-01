@@ -54,7 +54,7 @@ class UltiproClient
      *
      * @throws InvalidArgumentException
      */
-    public function __construct($auth, string $baseUri = 'https://service5.ultipro.com/', array $options = [])
+    public function __construct(array|Authentication $auth, string $baseUri = 'https://service5.ultipro.com/', array $options = [])
     {
         $this->setAuthentication($auth);
         $this->baseUri      = $baseUri;
@@ -66,12 +66,12 @@ class UltiproClient
      * @param bool $parseQueryAsArray
      * @param bool $parsePostAsArray
      *
-     * @return mixed|ResponseInterface
+     * @return ResponseInterface
      * @throws ClientException
      * @throws GuzzleException
      * @throws InvalidArgumentException
      */
-    public function get(RequestInterface $request, $parseQueryAsArray = false, $parsePostAsArray = false)
+    public function get(RequestInterface $request, bool $parseQueryAsArray = false, bool $parsePostAsArray = false)
     {
         $options = $this->parseRequest($request, $parseQueryAsArray, $parsePostAsArray);
 
@@ -93,12 +93,12 @@ class UltiproClient
      * @param bool $parseQueryAsArray
      * @param bool $parsePostAsArray
      *
-     * @return mixed|ResponseInterface
+     * @return ResponseInterface
      * @throws ClientException
      * @throws GuzzleException
      * @throws InvalidArgumentException
      */
-    public function post(RequestInterface $request, $parseQueryAsArray = false, $parsePostAsArray = false)
+    public function post(RequestInterface $request, bool $parseQueryAsArray = false, bool $parsePostAsArray = false)
     {
         $options = $this->parseRequest($request, $parseQueryAsArray, $parsePostAsArray);
 
@@ -219,7 +219,7 @@ class UltiproClient
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function parseRequest(RequestInterface $request, $parseQueryAsArray = false, $parsePostAsArray = false)
+    protected function parseRequest(RequestInterface $request, bool $parseQueryAsArray = false, bool $parsePostAsArray = false)
     {
         $queryParameters = $request->getQueryParameters();
         $postParameters  = $request->getPostParameters();
@@ -364,7 +364,6 @@ class UltiproClient
      * @param string $prefix
      *
      * @return array
-     * @throws ReflectionException
      */
     public function getClientEndpoints($prefix = 'ENDPOINT_')
     {

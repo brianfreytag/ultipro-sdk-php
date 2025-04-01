@@ -40,7 +40,7 @@ class Request implements RequestInterface
      * @param string $method
      * @param string $endPoint
      */
-    public function __construct(string $method = null, string $endPoint = '')
+    public function __construct(?string $method = null, string $endPoint = '')
     {
         $this->method   = $method;
         $this->endPoint = $endPoint;
