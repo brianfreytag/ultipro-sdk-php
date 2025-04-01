@@ -15,6 +15,7 @@ use Ultipro\Exception\InvalidArgumentException;
 use Ultipro\Exception\ClientException;
 use Ultipro\UltiproSoapClient;
 use SoapHeader;
+use Exception;
 
 /**
  * @author Brian Freytag <me@brianfreytag.com>
@@ -23,6 +24,9 @@ class ReportClient extends UltiproSoapClient
 {
     /**
      * @return mixed
+     *
+     * @throws ClientException
+     * @throws \SoapFault
      */
     public function getReportList()
     {
@@ -48,24 +52,15 @@ class ReportClient extends UltiproSoapClient
                 ]
             ]);
         } catch (Exception $e) {
-            $this->getLogger()->error(
+            throw new ClientException(
                 'There was an error grabbing the Reports List from the Ultipro SOAP API',
-                [
-                    'message'       => $e->getMessage(),
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
+                $e->getCode(),
+                $e
             );
         }
 
         if (!property_exists($response, 'GetReportListResult') || $response->GetReportListResult->Status !== 'Success') {
-            $this->getLogger()->error(
-                'There was an error grabbing the Reports List from the Ultipro SOAP API',
-                [
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
-            );
+            throw new ClientException('There was an error grabbing the Reports List from the Ultipro SOAP API');
         }
 
         return $response->GetReportListResult->Reports->Report;
@@ -75,6 +70,7 @@ class ReportClient extends UltiproSoapClient
      * @param string $report
      *
      * @return mixed
+     * @throws ClientException
      */
     public function getReportParameters(string $report)
     {
@@ -103,24 +99,15 @@ class ReportClient extends UltiproSoapClient
 
             $lastRequest = $client->__getLastRequest();
         } catch (Exception $e) {
-            $this->getLogger()->error(
+            throw new ClientException(
                 'There was an error grabbing the Report Parameters from the Ultipro SOAP API',
-                [
-                    'message'       => $e->getMessage(),
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
+                $e->getCode(),
+                $e
             );
         }
 
         if (!property_exists($response, 'GetReportParametersResult') || $response->GetReportParametersResult->Status !== 'Success') {
-            $this->getLogger()->error(
-                'There was an error grabbing the Report Parameters from the Ultipro SOAP API',
-                [
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
-            );
+            throw new ClientException('There was an error grabbing the Report Parameters from the Ultipro SOAP API');
         }
 
         return $response->GetReportParametersResult->ReportParameters;
@@ -149,6 +136,7 @@ class ReportClient extends UltiproSoapClient
      * @param array $parameters
      *
      * @return mixed
+     * @throws ClientException
      */
     public function executeReport(string $report, array $parameters = [])
     {
@@ -178,16 +166,11 @@ class ReportClient extends UltiproSoapClient
                 ]
             ]);
         } catch (Exception $e) {
-            $this->getLogger()->error(
-                'There was an error excuting the Report from the Ultipro SOAP API',
-                [
-                    'message'       => $e->getMessage(),
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
+            throw new ClientException(
+                'There was an error executing the Report from the Ultipro SOAP API',
+                $e->getCode(),
+                $e
             );
-
-            return false;
         }
 
         if (
@@ -196,15 +179,7 @@ class ReportClient extends UltiproSoapClient
             $response->ExecuteReportResult->ReportKey === null ||
             $response->ExecuteReportResult->ReportRetrievalUri === null
         ) {
-            $this->getLogger()->error(
-                'There was an error executing the Report from the Ultipro SOAP API',
-                [
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
-            );
-
-            return false;
+            throw new ClientException('There was an error executing the Report from the Ultipro SOAP API');
         }
 
         return $response->ExecuteReportResult;
@@ -214,7 +189,8 @@ class ReportClient extends UltiproSoapClient
      * @param $executeResponse
      * @param bool $toArray
      *
-     * @return array|bool
+     * @return array
+     * @throws ClientException
      */
     public function retrieveReport($executeResponse, bool $toArray = true)
     {
@@ -246,15 +222,6 @@ class ReportClient extends UltiproSoapClient
                 ]
             ]);
         } catch (Exception $e) {
-            $this->getLogger()->error(
-                'There was an error grabbing the Report from the Ultipro SOAP API',
-                [
-                    'message'       => $e->getMessage(),
-                    'last_request'  => $client->__getLastRequest(),
-                    'last_response' => $client->__getLastResponse()
-                ]
-            );
-
             return $reportOutput;
         }
 
@@ -265,16 +232,6 @@ class ReportClient extends UltiproSoapClient
         $xmlDocument = simplexml_load_string($reportStatus->ReportStream);
 
         if ($xmlDocument === false) {
-            $this->getLogger()->error(
-                'There was an error grabbing the Report from the Ultipro SOAP API',
-                [
-                    'message'       => 'The XML Document was either empty or invalid.',
-                    'reportStream'  => $reportStatus->ReportStream,
-                    'last_request'  => $reportClient->__getLastRequest(),
-                    'last_response' => $reportClient->__getLastResponse()
-                ]
-            );
-
             return [];
         }
 
